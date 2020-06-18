@@ -43,7 +43,7 @@ import fetch from "node-fetch";
     const { image_url } = req.query;
     console.log(image_url);
     if (!(await isValid(image_url))) {
-      res.status(404).send("url is not valid");
+      res.status(404).send("The request url is not valid");
     }
     const responseImg = await filterImageFromURL(image_url);
     res.status(200).sendFile(responseImg, () => {
