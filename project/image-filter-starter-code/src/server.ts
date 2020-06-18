@@ -21,12 +21,12 @@ import fetch from "node-fetch";
   //    1. validate the image_url query
   const isValid = async (url: string): Promise<boolean> => {
     try {
-      console.log(`Check this value ${url}`);
-      //create instance of URL from parameter
+      // URL from parameter
       const imageURL = new URL(url);
-      //fetch data from url
-      const response = await fetch(imageURL);
-      if (response.status === 200) {
+
+      //fetches image from valid url
+      const fetchImg = await fetch(imageURL);
+      if (fetchImg.status === 200) {
         return true;
       }
     } catch (error) {
@@ -38,16 +38,16 @@ import fetch from "node-fetch";
   //    3. send the resulting file in the response
   //    4. deletes any files on the server on finish of the response
   // QUERY PARAMATERS
-  //    image_url: URL of a publicly accessible image
+
   app.get("/filteredimage", async (req, res) => {
     const { image_url } = req.query;
     console.log(image_url);
     if (!(await isValid(image_url))) {
-      res.status(404).send("url is not valid");
+      res.status(404).send("The request url is not valid");
     }
-    const responseFile = await filterImageFromURL(image_url);
-    res.status(200).sendFile(responseFile, () => {
-      deleteLocalFiles([responseFile]);
+    const responseImg = await filterImageFromURL(image_url);
+    res.status(200).sendFile(responseImg, () => {
+      deleteLocalFiles([responseImg]);
     });
   });
   // RETURNS
